@@ -3,7 +3,7 @@ import userEvent from "@testing-library/user-event";
 import { describe, test, expect, vi } from "vitest";
 import ReviewForm from "../Form";
 
-const getFormElements = () => {
+export const getFormElements = () => {
   const emailInput = screen.getByRole("textbox", { name: /email/i });
   const ratingSelect = screen.getByRole("combobox", { name: /rating/i });
   const textArea = screen.getByRole("textbox", { name: /your review/i });
@@ -62,6 +62,8 @@ describe("Review Form", () => {
       "This is a valid review text that is long enough"
     );
     await user.click(submitButton);
+
+    expect(mockOnSubmit).toHaveBeenCalledTimes(1);
     expect(mockOnSubmit).toHaveBeenCalledWith({
       email: "test@example.com",
       rating: "5",
